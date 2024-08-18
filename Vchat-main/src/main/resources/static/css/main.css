@@ -1,0 +1,128 @@
+/* Global Styles */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition between themes */
+}
+
+button {
+    width: 180px;
+}
+
+.img-fluid {
+    max-width: 50%;
+    height: auto;
+    border-radius: 245px !important; /* Rounded corners for images */
+}
+
+.container {
+    margin-top: 50px;
+}
+
+/* Header Styling */
+.navbar {
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border-color); /* Border color based on theme */
+}
+
+.navbar-brand {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #db8f32; /* Initial orange color */
+    transition: color 0.3s; /* Smooth transition for color change */
+}
+
+.navbar-brand:hover {
+    color: #db8f32; /* Change to black on hover */
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border: 2px solid var(--primary-color); /* Border color based on theme */
+}
+
+/* Button Styling */
+.btn-primary, .btn-outline-secondary {
+    border-radius: 50px; /* Rounded button edges */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-secondary {
+    border-color: var( --text-color);
+    color: var( --text-color);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--secondary-hover-color);
+}
+#newMeetingBtn:hover {
+    background-color: #e8a652; /* Lighter shade of the original color */
+}
+
+/* Navbar Responsive Styling */
+@media (max-width: 992px) {
+    #navbarMenu .nav-item {
+        display: block;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    #theme-toggle {
+        font-size: 0.75rem; /* Smaller font size for theme toggle button */
+        padding: 0.5rem 1rem; /* Reduced padding for smaller button */
+    }
+
+    .navbar-toggler {
+        font-size: 0.75rem; /* Smaller font size for navbar toggle button */
+        padding: 0.5rem 0.75rem; /* Reduced padding for smaller button */
+    }
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item button {
+        margin-bottom: 10px;
+        width: 100%; /* Ensure buttons take full width on small screens */
+    }
+
+    .navbar-brand {
+        position: static;
+        transform: none;
+    }
+
+    .avatar {
+        margin-left: auto;
+        border: none; /* Remove border on small screens */
+    }
+    
+}
+
+/* Light Mode and Dark Mode Variables */
+:root {
+    --bg-color: #f8f9fa;
+    --text-color: #212529;
+    --primary-color: #db8f32;
+    --secondary-color: #6c757d;
+    --secondary-hover-color:  #db8f32;
+    --border-color: #e5e5e5;
+}
+
+[data-theme='dark'] {
+    --bg-color: #121212;
+    --text-color: #4b4949;
+    --primary-color: #db8f32;
+    --secondary-color: #424242;
+    --secondary-hover-color:  #db8f32;
+    --border-color: #000000;
+}

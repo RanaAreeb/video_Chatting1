@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zego Video Call</title>
+    <style>
+        #root {
+            width: 100vw;
+            height: 100vh;
+            font-family: 'Inter', sans-serif;
+    background-color: #db8f32 !important;
+
+        }
+        html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+        #room-info {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <div id="room-info"></div>
+
+    <script src="https://unpkg.com/zego-superboard-web@2.15.3/index.js"></script>
+    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+
+    <script>
+        window.onload = function () {
+            function getUrlParams(url) {
+                const urlParams = new URLSearchParams(new URL(url).search);
+                return Object.fromEntries(urlParams.entries());
+            }
+
+            const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
+            const userID = Math.floor(Math.random() * 10000) + "";
+            const userName = getUrlParams(window.location.href)['username'] || "userName" + userID;
+            const appID = 2098290806;
+            const serverSecret = "4e36a6f240e1be25427082bfdd068bdb"; // Ensure to keep this secret secure
+            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+
+            const zp = ZegoUIKitPrebuilt.create(kitToken);
+
+            zp.addPlugins({ ZegoSuperBoardManager });
+
+            zp.joinRoom({
+                container: document.querySelector("#root"),
+                sharedLinks: [
+                    {
+                        name: 'Personal link',
+                        url: `${window.location.protocol}//${window.location.host}${window.location.pathname}?roomID=${roomID}`,
+                    },
+                    {
+                        name: 'Room ID',
+                        url: `${roomID}`, // Corrected URL format
+                    }
+                ],
+                scenario: {
+                    mode: ZegoUIKitPrebuilt.VideoConference,
+                },
+                    turnOnMicrophoneWhenJoining: false,
+                turnOnCameraWhenJoining: false,
+                showMyCameraToggleButton: true,
+                showMyMicrophoneToggleButton: true,
+                showAudioVideoSettingsButton: true,
+                showScreenSharingButton: true,
+                showTextChat: true,
+                showUserList: true,
+                maxUsers: 12,
+                layout: "Auto",
+                showLayoutButton: true,
+                showSoundWavesInAudioMode:true,
+            }).catch(error => {
+                console.error('Failed to join the room:', error);
+            });
+
+            document.getElementById('room-info').innerText = `Room ID: ${roomID}`;
+        }
+    </script>
+</body>
+
+</html>

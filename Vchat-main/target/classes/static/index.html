@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+        
+        #join-meeting-card {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .moveup {
+            margin-top: -3rem;
+        }
+
+        .meeting-card {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        body {
+            transition: background-image 0.5s ease;
+            background-size: cover;
+            background-position: center;
+        }
+        .navbar-actions {
+    margin-left: auto; /* Aligns the logout button to the right */
+}
+#joinMeetingBtn{
+   margin-top: 10px;
+    font-size: 1rem;
+    padding: 0.5rem 0.5rem;
+    background-color: #fcfcfc;
+    border-color:  #db8f32;
+    border-radius: 45px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#logoutBtn {
+    margin-left: 1rem;
+    font-size: 1rem;
+    padding: 0.5rem 0.5rem;
+    border-color: #db8f32;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    
+}
+#logoutBtn:hover{
+    background-color: #db8f32;
+}
+.close-btn {
+    color: #000;
+    cursor: pointer;
+    margin-left: 200px;
+}
+
+.close-btn:hover {
+    color: #db8f32;
+}
+
+    </style>
+</head>
+<body>
+    
+    <!-- Header Section with Toggle Menu -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container-fluid">
+           
+            <!-- Center the Meet Title -->
+            <a class="navbar-brand mx-auto fs-3 fw-bold" href="#">Kolo</a>
+
+            <!-- Avatar to the Right -->
+           
+            <!-- Theme Toggle Button -->
+            <button id="theme-toggle" class="btn btn-outline-secondary ms-2">
+                <i class="bi bi-moon"></i>
+            </button>
+           
+            
+            <!-- Button to change background image -->
+            <button id="change-bg-btn" class="btn btn-outline-secondary ms-2">Change Background</button>
+            <input type="file" id="bg-input" class="hidden" accept="image/*">
+
+            <!-- Collapsible Menu -->
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
+                    <li class="nav-item mb-2 mb-lg-0">
+                        <button id="newMeetingBtn" class="btn btn-primary btn-lg me-2">Lets Meet</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="joinMeetingBtn1" class="btn btn-outline-secondary btn-lg w-100">Room ID</button>
+                    </li>
+                </ul>
+            </div>
+           
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container text-center mt-5">
+        <div class="row justify-content-center d-lg-none">
+            <div class="col-md-6 d-flex justify-content-between mb-4">
+                <button id="newMeetingBtn1" class="btn btn-primary btn-lg me-2">New Meeting</button>
+                <button id="join-meeting-btn-mobile" class="btn btn-outline-secondary btn-lg">Join with a Code</button>
+            </div>
+        </div>
+        
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <img src="./assets/IMG_1448.png" class="img-fluid rounded" alt="Meeting Illustration">
+            </div>
+        </div>
+
+        <div id="join-meeting-card" class="row justify-content-center hidden" style="margin-top: -19rem;">
+            <div class="col-md-4 mb-4">
+                <div class="card meeting-card join-meeting-card">
+                    <div class="card-body">
+                        <!-- Close Button -->
+                        <button id="close-card-btn" class="close-btn" aria-label="Close" style="background: none; border: none; float: right; font-size: 1.5rem;">
+                            &times;
+                        </button>
+                        
+                        <h5 class="card-title">Join Meeting</h5>
+                        <p class="card-text">Join an existing meeting with a Room ID.</p>
+                        <input type="text" placeholder="Meeting ID" id="meetingName">
+                        <button id="joinMeetingBtn">Join</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbarMenu = document.getElementById('navbarMenu');
+            const toggleButton = document.querySelector('.navbar-toggler');
+            const themeToggleButton = document.getElementById('theme-toggle');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            const joinMeetingBtn = document.getElementById('joinMeetingBtn1');
+            const joinMeetingCard = document.getElementById('join-meeting-card');
+            const joinMeetingBtnMobile = document.getElementById('join-meeting-btn-mobile');
+            const newMeetingBtn1 = document.getElementById('newMeetingBtn1');
+            const changeBgBtn = document.getElementById('change-bg-btn');
+            const bgInput = document.getElementById('bg-input');
+            const logoutBtn = document.getElementById('logoutBtn'); // Ensure this is in the DOM
+            const closeCardBtn = document.getElementById('close-card-btn');
+
+            // Apply the current theme
+            document.documentElement.setAttribute('data-theme', currentTheme);
+    
+            // Change icon based on the current theme
+            themeToggleButton.innerHTML = currentTheme === 'dark' ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon"></i>';
+    
+            // Toggle theme on button click
+            themeToggleButton.addEventListener('click', function () {
+                const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+    
+                themeToggleButton.innerHTML = newTheme === 'dark' ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon"></i>';
+            });
+    
+            // Toggle the card visibility
+            function toggleCardVisibility() {
+                joinMeetingCard.classList.toggle('hidden');
+                joinMeetingCard.classList.toggle('show');
+            }
+            // Close card on clicking the close button
+    closeCardBtn.addEventListener('click', function() {
+        joinMeetingCard.classList.add('hidden');  // Simply hide the card
+        joinMeetingCard.classList.remove('show');
+    });
+            // Add event listeners for toggling the join meeting card
+            if (joinMeetingBtn1) joinMeetingBtn1.addEventListener('click', toggleCardVisibility);
+            if (joinMeetingBtnMobile) joinMeetingBtnMobile.addEventListener('click', toggleCardVisibility);
+            if (newMeetingBtn1) newMeetingBtn1.addEventListener('click', toggleCardVisibility);
+    
+            // Background Change Logic
+            changeBgBtn.addEventListener('click', () => {
+                bgInput.click(); // Trigger file input click
+            });
+    
+            bgInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.body.style.backgroundImage = `url(${e.target.result})`; // Set image as background
+                    };
+                    reader.readAsDataURL(file); // Read the selected image
+                }
+            });
+    
+            // Logout Button Logic
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', handleLogout); // Bind to the logout handler
+            } else {
+                console.error("Logout button not found in DOM.");
+            }
+    
+            // Logout Handler
+            function handleLogout() {
+                // Perform logout API call (adjust based on your server-side logic)
+                fetch('http://localhost:8080/api/v1/users/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user: localStorage.getItem('connectedUser') }),
+                })
+                    .then((response) => response.json())
+                    .then(() => {
+                        localStorage.removeItem('connectedUser'); // Remove user from local storage
+                        window.location.href = "login.html"; // Redirect to login page
+                    })
+                    .catch((error) => {
+                        console.error("Error during logout:", error);
+                    });
+            }
+        });
+    </script>
+    
+    
+    <script src="./js/index.js"></script>
+</body>
+</html>
