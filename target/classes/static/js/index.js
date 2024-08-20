@@ -42,7 +42,7 @@ function loadAndDisplayUsers() {
     const userListElement = document.getElementById("userList");
     if (userListElement) {
         userListElement.innerHTML = "Loading...";
-        fetch('http://localhost:8080/api/v1/users')
+        fetch('https://videochatting1-x.up.railway.app/api/v1/users')
             .then(response => response.json())
             .then(data => {
                 console.log(data);

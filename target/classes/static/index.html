@@ -43,7 +43,9 @@
     border-radius: 45px;
     transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-
+#joinMeetingBtn:hover{
+    background-color: #db8f32;
+}
 #logoutBtn {
     margin-left: 1rem;
     font-size: 1rem;
@@ -107,19 +109,20 @@
     <div class="container text-center mt-5">
         <div class="row justify-content-center d-lg-none">
             <div class="col-md-6 d-flex justify-content-between mb-4">
-                <button id="newMeetingBtn1" class="btn btn-primary btn-lg me-2">New Meeting</button>
-                <button id="join-meeting-btn-mobile" class="btn btn-outline-secondary btn-lg">Join with a Code</button>
+                <button id="newMeetingBtn1" class="btn btn-primary btn-lg me-2">Lets Meet</button>
+                <button id="join-meeting-btn-mobile" class="btn btn-outline-secondary btn-lg">Room ID</button>
             </div>
         </div>
         
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center pt-5 pt-md-7">
             <div class="col-md-8">
                 <img src="./assets/IMG_1448.png" class="img-fluid rounded" alt="Meeting Illustration">
             </div>
         </div>
+        
 
-        <div id="join-meeting-card" class="row justify-content-center hidden" style="margin-top: -19rem;">
+        <div id="join-meeting-card" class="row justify-content-center hidden" style="margin-top: -10rem;  ">
             <div class="col-md-4 mb-4">
                 <div class="card meeting-card join-meeting-card">
                     <div class="card-body">

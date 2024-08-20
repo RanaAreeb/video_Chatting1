@@ -9,8 +9,12 @@ body {
 button {
     width: 180px;
 }
+.custom-margin-top {
+    margin-top: 50px; /* Adjust this value as needed */
+}
 
 .img-fluid {
+   padding-top: 2rem;
     max-width: 50%;
     height: auto;
     border-radius: 245px !important; /* Rounded corners for images */
@@ -37,12 +41,6 @@ button {
     color: #db8f32; /* Change to black on hover */
 }
 
-.avatar {
-    width: 45px;
-    height: 45px;
-    object-fit: cover;
-    border: 2px solid var(--primary-color); /* Border color based on theme */
-}
 
 /* Button Styling */
 .btn-primary, .btn-outline-secondary {
@@ -50,8 +48,8 @@ button {
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: #f8f9fa; ;
+    
 }
 
 .btn-outline-secondary {
@@ -62,10 +60,17 @@ button {
 .btn-outline-secondary:hover {
     background-color: var(--secondary-hover-color);
 }
-#newMeetingBtn:hover {
-    background-color: #e8a652; /* Lighter shade of the original color */
+#newMeetingBtn {
+    background-color: #f8f9fa;
+    color: var(--text-color);
+    border-color: Black;
+    transition: smooth;
+     /* Lighter shade of the original color */
 }
+#newMeetingBtn:hover {
+    background-color:var(--primary-color);
 
+}
 /* Navbar Responsive Styling */
 @media (max-width: 992px) {
     #navbarMenu .nav-item {
@@ -105,6 +110,7 @@ button {
         margin-left: auto;
         border: none; /* Remove border on small screens */
     }
+    
     
 }
 
