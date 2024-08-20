@@ -14,10 +14,10 @@ button {
 }
 
 .img-fluid {
-   padding-top: 2rem;
+   
     max-width: 50%;
     height: auto;
-    border-radius: 245px !important; /* Rounded corners for images */
+    border-radius: 475px !important; /* Rounded corners for images */
 }
 
 .container {
@@ -67,9 +67,19 @@ button {
     transition: smooth;
      /* Lighter shade of the original color */
 }
+#newMeetingBtn1:hover {
+    background-color:var(--primary-color);
+
+}
 #newMeetingBtn:hover {
     background-color:var(--primary-color);
 
+}
+#newMeetingBtn1{
+    background-color: #f8f9fa;
+    color: var(--text-color);
+    border-color: Black;
+    transition: smooth;
 }
 /* Navbar Responsive Styling */
 @media (max-width: 992px) {
