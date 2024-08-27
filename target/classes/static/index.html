@@ -46,6 +46,7 @@
 #joinMeetingBtn:hover{
     background-color: #db8f32;
 }
+
 #logoutBtn {
     margin-left: 1rem;
     font-size: 1rem;
@@ -54,9 +55,7 @@
     transition: cubic-bezier(0.075, 0.82, 0.165, 1);
     
 }
-#logoutBtn:hover{
-    background-color: #db8f32;
-}
+
 .close-btn {
     color: #000;
     cursor: pointer;
@@ -65,6 +64,76 @@
 
 .close-btn:hover {
     color: #db8f32;
+}
+
+
+
+        #calendar-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: var(--border-radius-3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 1050;
+            display: none;
+        }
+
+        #calendar-popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+        }
+
+        #calendar-popup h5 {
+            margin-top: 0;
+        }
+
+        #meetings-list {
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .meeting-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .full-page-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:  white;;
+    z-index: 1000;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+.scrollable-meetings {
+    max-height: 70vh; /* Adjust the height as needed */
+    overflow-y: auto;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+    margin-top: 1rem;
+}
+
+.hidden {
+    display: none;
+}
+#email-tags .badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
 }
 
     </style>
@@ -76,9 +145,9 @@
         <div class="container-fluid">
            
             <!-- Center the Meet Title -->
-            <a class="navbar-brand mx-auto fs-3 fw-bold" >Kolo</a>
+            <a id="logo" class="navbar-brand mx-auto fs-3 fw-bold" >Colo</a>
 
-            <!-- Avatar to the Right -->
+          
            
             <!-- Theme Toggle Button -->
             <button id="theme-toggle" class="btn btn-outline-secondary ms-2">
@@ -90,21 +159,51 @@
             <button id="change-bg-btn" class="btn btn-outline-secondary ms-2">Change Background</button>
             <input type="file" id="bg-input" class="hidden" accept="image/*">
 
+            <button id="calendar-btn" class="btn btn-outline-secondary ms-2">Calendar</button>
+
             <!-- Collapsible Menu -->
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
                     <li class="nav-item mb-2 mb-lg-0">
-                        <button id="newMeetingBtn" class="btn btn-primary btn-lg me-2">Lets Meet</button>
+                        <button id="newMeetingBtn" class="btn btn-outline-secondary btn-lg w-100">Lets Meet</button>
                     </li>
                     <li class="nav-item">
                         <button id="joinMeetingBtn1" class="btn btn-outline-secondary btn-lg w-100">Room ID</button>
                     </li>
+                  
                 </ul>
             </div>
            
         </div>
     </nav>
+     <!-- Calendar Popup -->
+     <div id="calendar-popup" style="margin-top: 12rem;  ">
+        <button id="close-meeting-btn" class="close-btn" aria-label="Close" style="background: none; border: none; float: right; font-size: 1.5rem;">
+            &times;
+        </button>
+        <h5>Schedule Meeting</h5>
+        <input type="datetime-local" id="meeting-datetime" class="form-control" placeholder="Select Date and Time">
+        <input type="text" id="meeting-purpose" class="form-control mt-2" placeholder="Meeting Purpose">
+        <input type="text" id="meeting-organizer" class="form-control mt-2" placeholder="Organizer Name">
+         <!-- Email Input Field -->
+    <label for="email-input" class="mt-2">Add Email Addresses:</label>
+    <input type="text" id="email-input" class="form-control mt-2" placeholder="Add email and press enter" autocomplete="off">
+    <div id="email-tags" class="mt-2"></div>
+    
+        <button id="scheduleMeetingBtn" class="btn btn-outline-secondary ms-2">Schedule Meeting</button>
+        <!-- Button to View Scheduled Meetings -->
+<button id="viewMeetingsBtn" class="btn btn-outline-secondary ms-2">View Scheduled Meetings</button>
 
+<!-- Full-Page View of Scheduled Meetings -->
+<div id="meetings-fullpage" class="full-page-popup hidden">
+    <button id="close-meetings-btn" class="close-btn" aria-label="Close"style="background: none; border: none; float: right; font-size: 1.5rem;">
+        &times;
+    </button>
+    <h5>Scheduled Meetings</h5>
+    <div id="meetingsContainer" class="scrollable-meetings"></div>
+</div>
+
+    </div>
     <!-- Main Content -->
     <div class="container text-center mt-5">
         <div class="row justify-content-center d-lg-none">
@@ -117,7 +216,7 @@
 
         <div class="row justify-content-center pt-5 ">
             <div class="col-md-8">
-                <img src="./assets/IMG_1448.png" class="img-fluid rounded" alt="Meeting Illustration">
+                <img src="./assets/IMG_1487.jpg" class="img-fluid rounded" alt="Meeting Illustration">
             </div>
         </div>
         
@@ -133,7 +232,7 @@
                         
                         <h5 class="card-title">Join Meeting</h5>
                         <p class="card-text">Join an existing meeting with a Room ID.</p>
-                        <input type="text" placeholder="Meeting ID" id="meetingName">
+                        <input type="text" placeholder="Room ID" id="meetingName">
                         <button id="joinMeetingBtn">Join</button>
                     </div>
                 </div>
@@ -148,6 +247,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        
         document.addEventListener("DOMContentLoaded", function () {
             const navbarMenu = document.getElementById('navbarMenu');
             const toggleButton = document.querySelector('.navbar-toggler');
@@ -159,9 +259,57 @@
             const newMeetingBtn1 = document.getElementById('newMeetingBtn1');
             const changeBgBtn = document.getElementById('change-bg-btn');
             const bgInput = document.getElementById('bg-input');
-            const logoutBtn = document.getElementById('logoutBtn'); // Ensure this is in the DOM
             const closeCardBtn = document.getElementById('close-card-btn');
+            const calendarPopup = document.getElementById('calendar-popup');
+            const scheduleMeetingBtn = document.getElementById('scheduleMeetingBtn');
+            const viewMeetingsBtn = document.getElementById('viewMeetingsBtn');
+            const meetingsList = document.getElementById('meetings-list');
+            const meetingsContainer = document.getElementById('meetingsContainer');
+            const meetingDateTimeInput = document.getElementById('meeting-datetime');
+            const meetingPurposeInput = document.getElementById('meeting-purpose');
+            const meetingOrganizerInput = document.getElementById('meeting-organizer');
+            const calendarBtn = document.getElementById('calendar-btn');
+            let meetings = [];
+            const emailInput = document.getElementById('email-input');
+    const emailTagsContainer = document.getElementById('email-tags');
+    let emailTags = [];
 
+    emailInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && emailInput.value) {
+            event.preventDefault();
+
+            const email = emailInput.value.trim();
+            if (validateEmail(email) && !emailTags.includes(email)) {
+                emailTags.push(email);
+                addEmailTag(email);
+            }
+            emailInput.value = ''; // Clear the input field
+        }
+    });
+
+    function addEmailTag(email) {
+        const tag = document.createElement('span');
+        tag.className = 'badge bg-primary me-2 mb-2';
+        tag.innerText = email;
+        
+        const removeBtn = document.createElement('span');
+        removeBtn.className = 'ms-2 text-white';
+        removeBtn.innerHTML = '&times;';
+        removeBtn.style.cursor = 'pointer';
+        
+        removeBtn.addEventListener('click', function () {
+            emailTags = emailTags.filter(e => e !== email);
+            emailTagsContainer.removeChild(tag);
+        });
+
+        tag.appendChild(removeBtn);
+        emailTagsContainer.appendChild(tag);
+    }
+
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
             // Apply the current theme
             document.documentElement.setAttribute('data-theme', currentTheme);
     
@@ -183,10 +331,12 @@
                 joinMeetingCard.classList.toggle('show');
             }
             // Close card on clicking the close button
-    closeCardBtn.addEventListener('click', function() {
-        joinMeetingCard.classList.add('hidden');  // Simply hide the card
-        joinMeetingCard.classList.remove('show');
-    });
+            closeCardBtn.addEventListener('click', function() {
+    console.log('Close button clicked');
+    joinMeetingCard.classList.add('hidden');  // Simply hide the card
+    joinMeetingCard.classList.remove('show');
+});
+
             // Add event listeners for toggling the join meeting card
             if (joinMeetingBtn1) joinMeetingBtn1.addEventListener('click', toggleCardVisibility);
             if (joinMeetingBtnMobile) joinMeetingBtnMobile.addEventListener('click', toggleCardVisibility);
@@ -208,34 +358,63 @@
                 }
             });
     
-            // Logout Button Logic
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', handleLogout); // Bind to the logout handler
-            } else {
-                console.error("Logout button not found in DOM.");
+           
+            scheduleMeetingBtn.addEventListener('click', () => {
+                const dateTime = meetingDateTimeInput.value;
+                const purpose = meetingPurposeInput.value;
+                const organizer = meetingOrganizerInput.value;
+                if (dateTime && purpose && organizer) {
+                    meetings.push({ dateTime, purpose, organizer });
+                    displayMeetings();
+                    meetingDateTimeInput.value = '';
+                    meetingPurposeInput.value = '';
+                    meetingOrganizerInput.value = '';
+                }
+            });
+            viewMeetingsBtn.addEventListener('click', () => {
+                meetingsList.classList.toggle('hidden');
+                if (!meetingsList.classList.contains('hidden')) {
+                    displayMeetings();
+                }
+            });
+            calendarBtn.addEventListener('click', () => {
+                calendarPopup.style.display = 'block';
+            });
+
+            document.getElementById('calendar-popup').querySelector('.close-btn').addEventListener('click', () => {
+                calendarPopup.style.display = 'none';
+            });
+            
+
+            function displayMeetings() {
+                meetingsContainer.innerHTML = '';
+                meetings.forEach(meeting => {
+                    const meetingElement = document.createElement('div');
+                    const dateTimeParts = meeting.dateTime.split("T");
+                    const formattedDateTime = `${dateTimeParts[0]} ${dateTimeParts[1]}`;
+                    meetingElement.innerText = `${formattedDateTime} - ${meeting.purpose} ( Organizer: ${meeting.organizer} )`;
+
+                    meetingsContainer.appendChild(meetingElement);
+                });
             }
-    
-            // Logout Handler
-            function handleLogout() {
-                // Perform logout API call (adjust based on your server-side logic)
-                fetch('http://localhost:8080/api/v1/users/logout', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ user: localStorage.getItem('connectedUser') }),
-                })
-                    .then((response) => response.json())
-                    .then(() => {
-                        localStorage.removeItem('connectedUser'); // Remove user from local storage
-                        window.location.href = "login.html"; // Redirect to login page
-                    })
-                    .catch((error) => {
-                        console.error("Error during logout:", error);
-                    });
-            }
+
+
+
+            // Show the full-page view when clicking "View Scheduled Meetings"
+document.getElementById('viewMeetingsBtn').addEventListener('click', () => {
+    document.getElementById('meetings-fullpage').classList.remove('hidden');
+});
+
+// Close the full-page view when clicking the close button
+document.getElementById('close-meetings-btn').addEventListener('click', () => {
+    document.getElementById('meetings-fullpage').classList.add('hidden');
+});
+
         });
+
+    
     </script>
+    
     
     
     <script src="./js/index.js"></script>
