@@ -1,422 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meeting Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/main.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COLO</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <style>
-        .hidden {
-            display: none;
-        }
-        
-        #join-meeting-card {
-            justify-content: center;
-            align-items: center;
-        }
-
-        .moveup {
-            margin-top: -3rem;
-        }
-
-        .meeting-card {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        body {
-            transition: background-image 0.5s ease;
-            background-size: cover;
-            background-position: center;
-        }
-        .navbar-actions {
-    margin-left: auto; /* Aligns the logout button to the right */
+        .navbar-toggler {
+    border: none; /* Remove the border from the toggle button */
+    background-color: transparent; /* Optional: Make the background transparent */
+    border-color: transparent;
+    color:  #db8f32;;
 }
-#joinMeetingBtn{
-   margin-top: 10px;
-    font-size: 1rem;
-    padding: 0.5rem 0.5rem;
-    background-color: #fcfcfc;
-    border-color:  #db8f32;
-    border-radius: 45px;
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-#joinMeetingBtn:hover{
-    background-color: #db8f32;
-}
-
-#logoutBtn {
-    margin-left: 1rem;
-    font-size: 1rem;
-    padding: 0.5rem 0.5rem;
-    border-color: #db8f32;
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-    
-}
-
-.close-btn {
-    color: #000;
-    cursor: pointer;
-    margin-left: 200px;
-}
-
-.close-btn:hover {
-    color: #db8f32;
-}
-
-
-
-        #calendar-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 600px;
-            background-color: white;
-            border-radius: var(--border-radius-3);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            z-index: 1050;
-            display: none;
-        }
-
-        #calendar-popup .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5rem;
-        }
-
-        #calendar-popup h5 {
-            margin-top: 0;
-        }
-
-        #meetings-list {
-            margin-top: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .meeting-item {
-            padding: 5px 0;
-            border-bottom: 1px solid #ddd;
-        }
-        .full-page-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color:  white;;
-    z-index: 1000;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-}
-.scrollable-meetings {
-    max-height: 70vh; /* Adjust the height as needed */
-    overflow-y: auto;
-    background-color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    flex-grow: 1;
-    margin-top: 1rem;
-}
-
-.hidden {
-    display: none;
-}
-#email-tags .badge {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    border-radius: 0.5rem;
-}
-
     </style>
-</head>
-<body>
-    
+  </head>
+  <body>
     <!-- Header Section with Toggle Menu -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container-fluid">
-           
-            <!-- Center the Meet Title -->
-            <a id="logo" class="navbar-brand mx-auto fs-3 fw-bold" >Colo</a>
+      <div class="container-fluid">
+        <!-- Center the Meet Title -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-          
-           
+        <!-- Center the Meet Title -->
+        <a id="logo" class="navbar-brand mx-auto fs-3 fw-bold">Colo</a>
+
+        <!-- Toggle Menu Items -->
+        <div class="collapse navbar-collapse" id="navbarMenu">
             <!-- Theme Toggle Button -->
             <button id="theme-toggle" class="btn btn-outline-secondary ms-2">
                 <i class="bi bi-moon"></i>
             </button>
-           
-            
+
             <!-- Button to change background image -->
-            <button id="change-bg-btn" class="btn btn-outline-secondary ms-2">Change Background</button>
-            <input type="file" id="bg-input" class="hidden" accept="image/*">
+            <button id="change-bg-btn" class="btn btn-outline-secondary ms-2">
+                Change Background
+            </button>
+            <input type="file" id="bg-input" class="hidden" accept="image/*" />
 
-            <button id="calendar-btn" class="btn btn-outline-secondary ms-2">Calendar</button>
+            <!-- Calendar Button -->
+            <button id="calendar-btn" class="btn btn-outline-secondary ms-2">
+                Calendar
+            </button>
 
-            <!-- Collapsible Menu -->
-            <div class="collapse navbar-collapse" id="navbarMenu">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
-                    <li class="nav-item mb-2 mb-lg-0">
-                        <button id="newMeetingBtn" class="btn btn-outline-secondary btn-lg w-100">Lets Meet</button>
-                    </li>
-                    <li class="nav-item">
-                        <button id="joinMeetingBtn1" class="btn btn-outline-secondary btn-lg w-100">Room ID</button>
-                    </li>
-                  
-                </ul>
-            </div>
-           
+        <!-- Collapsible Menu -->
+        <div class="collapse navbar-collapse" id="navbarMenu1">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
+            <li class="nav-item mb-2 mb-lg-0">
+              <button
+                id="newMeetingBtn"
+                class="btn btn-outline-secondary btn-lg w-100"
+              >
+                Lets Meet
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                id="joinMeetingBtn1"
+                class="btn btn-outline-secondary btn-lg w-100"
+              >
+                Room ID
+              </button>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
-     <!-- Calendar Popup -->
-     <div id="calendar-popup" style="margin-top: 12rem;  ">
-        <button id="close-meeting-btn" class="close-btn" aria-label="Close" style="background: none; border: none; float: right; font-size: 1.5rem;">
-            &times;
-        </button>
-        <h5>Schedule Meeting</h5>
-        <input type="datetime-local" id="meeting-datetime" class="form-control" placeholder="Select Date and Time">
-        <input type="text" id="meeting-purpose" class="form-control mt-2" placeholder="Meeting Purpose">
-        <input type="text" id="meeting-organizer" class="form-control mt-2" placeholder="Organizer Name">
-         <!-- Email Input Field -->
-    <label for="email-input" class="mt-2">Add Email Addresses:</label>
-    <input type="text" id="email-input" class="form-control mt-2" placeholder="Add email and press enter" autocomplete="off">
-    <div id="email-tags" class="mt-2"></div>
-    
-        <button id="scheduleMeetingBtn" class="btn btn-outline-secondary ms-2">Schedule Meeting</button>
-        <!-- Button to View Scheduled Meetings -->
-<button id="viewMeetingsBtn" class="btn btn-outline-secondary ms-2">View Scheduled Meetings</button>
-
-<!-- Full-Page View of Scheduled Meetings -->
-<div id="meetings-fullpage" class="full-page-popup hidden">
-    <button id="close-meetings-btn" class="close-btn" aria-label="Close"style="background: none; border: none; float: right; font-size: 1.5rem;">
+    <!-- Calendar Popup -->
+    <div id="calendar-popup">
+      <button
+        id="close-meeting-btn"
+        class="close-btn"
+        aria-label="Close"
+        style="background: none; border: none; float: right; font-size: 1.5rem;"
+      >
         &times;
-    </button>
-    <h5>Scheduled Meetings</h5>
-    <div id="meetingsContainer" class="scrollable-meetings"></div>
-</div>
+      </button>
+      <h5>Schedule Meeting</h5>
+      <input
+        type="datetime-local"
+        id="meeting-datetime"
+        class="form-control"
+        placeholder="Select Date and Time"
+      />
+      <input
+        type="text"
+        id="meeting-purpose"
+        class="form-control mt-2"
+        placeholder="Meeting Purpose"
+      />
+      <input
+        type="text"
+        id="meeting-organizer"
+        class="form-control mt-2"
+        placeholder="Organizer Name"
+      />
+      <!-- Email Input Field -->
 
+      <input
+        type="text"
+        id="email-input"
+        class="form-control mt-2"
+        placeholder="Add email and press enter"
+        autocomplete="off"
+      />
+      <div id="email-tags" class="mt-2"></div>
+
+      <button id="scheduleMeetingBtn" class="btn btn-outline-secondary ms-2">
+        Schedule
+      </button>
+      <!-- Button to View Scheduled Meetings -->
+      <button id="viewMeetingsBtn" class="btn btn-outline-secondary ms-2">
+        View Scheduled Meetings
+      </button>
+
+      <!-- Full-Page View of Scheduled Meetings -->
+      <div id="meetings-fullpage" class="full-page-popup hidden">
+        <button
+          id="close-meetings-btn"
+          class="close-btn"
+          aria-label="Close"
+          style="
+            background: none;
+            border: none;
+            float: right;
+            font-size: 1.5rem;
+          "
+        >
+          &times;
+        </button>
+        <h5>Scheduled Meetings</h5>
+        <div id="meetingsContainer" class="scrollable-meetings"></div>
+      </div>
     </div>
     <!-- Main Content -->
     <div class="container text-center mt-5">
-        <div class="row justify-content-center d-lg-none">
-            <div class="col-md-6 d-flex justify-content-between mb-4">
-                <button id="newMeetingBtn1" class="btn btn-primary btn-lg me-2">Lets Meet</button>
-                <button id="join-meeting-btn-mobile" class="btn btn-outline-secondary btn-lg">Room ID</button>
-            </div>
+      <div class="row justify-content-center d-lg-none">
+        <div class="col-md-6 d-flex justify-content-between mb-4">
+          <button id="newMeetingBtn1" class="btn btn-primary btn-lg me-2">
+            Lets Meet
+          </button>
+          <button
+            id="join-meeting-btn-mobile"
+            class="btn btn-outline-secondary btn-lg"
+          >
+            Room ID
+          </button>
         </div>
-        
+      </div>
 
-        <div class="row justify-content-center pt-5 ">
-            <div class="col-md-8">
-                <img src="./assets/IMG_1487.jpg" class="img-fluid rounded" alt="Meeting Illustration">
-            </div>
+      <div class="row justify-content-center pt-5">
+        <div class="col-md-8">
+          <img
+            src="./assets/IMG_1487.jpg"
+            class="img-fluid rounded"
+            alt="Meeting Illustration"
+          />
         </div>
-        
+      </div>
 
-        <div id="join-meeting-card" class="row justify-content-center hidden" style="margin-top: -10rem;  ">
-            <div class="col-md-4 mb-4">
-                <div class="card meeting-card join-meeting-card">
-                    <div class="card-body">
-                        <!-- Close Button -->
-                        <button id="close-card-btn" class="close-btn" aria-label="Close" style="background: none; border: none; float: right; font-size: 1.5rem;">
-                            &times;
-                        </button>
+      <div id="join-meeting-card" class="row hidden">
+      
+          <div class="card meeting-card join-meeting-card">
+              <div class="card-body">
+                  <!-- Close Button -->
+                  <button
+                      id="close-card-btn"
+                      class="close-btn"
+                      aria-label="Close"
+                      style="
+                          background: none;
+                          border: none;
+                          font-size: 1.5rem;
                         
-                        <h5 class="card-title">Join Meeting</h5>
-                        <p class="card-text">Join an existing meeting with a Room ID.</p>
-                        <input type="text" placeholder="Room ID" id="meetingName">
-                        <button id="joinMeetingBtn">Join</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-    </div>
+                         
+                      "
+                  >
+                      &times;
+                  </button>
+  
+                  <h5 class="card-title">Join Meeting</h5>
+                  <p class="card-text">Join an existing meeting with a Room ID.</p>
+                  <input type="text" placeholder="Room ID" id="meetingName" />
+                  <button id="joinMeetingBtn">Join</button>
+              </div>
+          </div>
+ 
+  </div>
+  
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        
-        document.addEventListener("DOMContentLoaded", function () {
-            const navbarMenu = document.getElementById('navbarMenu');
-            const toggleButton = document.querySelector('.navbar-toggler');
-            const themeToggleButton = document.getElementById('theme-toggle');
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            const joinMeetingBtn = document.getElementById('joinMeetingBtn1');
-            const joinMeetingCard = document.getElementById('join-meeting-card');
-            const joinMeetingBtnMobile = document.getElementById('join-meeting-btn-mobile');
-            const newMeetingBtn1 = document.getElementById('newMeetingBtn1');
-            const changeBgBtn = document.getElementById('change-bg-btn');
-            const bgInput = document.getElementById('bg-input');
-            const closeCardBtn = document.getElementById('close-card-btn');
-            const calendarPopup = document.getElementById('calendar-popup');
-            const scheduleMeetingBtn = document.getElementById('scheduleMeetingBtn');
-            const viewMeetingsBtn = document.getElementById('viewMeetingsBtn');
-            const meetingsList = document.getElementById('meetings-list');
-            const meetingsContainer = document.getElementById('meetingsContainer');
-            const meetingDateTimeInput = document.getElementById('meeting-datetime');
-            const meetingPurposeInput = document.getElementById('meeting-purpose');
-            const meetingOrganizerInput = document.getElementById('meeting-organizer');
-            const calendarBtn = document.getElementById('calendar-btn');
-            let meetings = [];
-            const emailInput = document.getElementById('email-input');
-    const emailTagsContainer = document.getElementById('email-tags');
-    let emailTags = [];
+      document.addEventListener("DOMContentLoaded", function () {
+        const navbarMenu = document.getElementById("navbarMenu");
+        const toggleButton = document.querySelector(".navbar-toggler");
+        const themeToggleButton = document.getElementById("theme-toggle");
+        const currentTheme = localStorage.getItem("theme") || "light";
+        const joinMeetingBtn = document.getElementById("joinMeetingBtn1");
+        const joinMeetingCard = document.getElementById("join-meeting-card");
+        const joinMeetingBtnMobile = document.getElementById(
+          "join-meeting-btn-mobile"
+        );
+        const newMeetingBtn1 = document.getElementById("newMeetingBtn1");
+        const changeBgBtn = document.getElementById("change-bg-btn");
+        const bgInput = document.getElementById("bg-input");
+        const closeCardBtn = document.getElementById("close-card-btn");
+        const calendarPopup = document.getElementById("calendar-popup");
+        const scheduleMeetingBtn = document.getElementById(
+          "scheduleMeetingBtn"
+        );
+        const viewMeetingsBtn = document.getElementById("viewMeetingsBtn");
+        const meetingsList = document.getElementById("meetings-list");
+        const meetingsContainer = document.getElementById("meetingsContainer");
+        const meetingDateTimeInput = document.getElementById(
+          "meeting-datetime"
+        );
+        const meetingPurposeInput = document.getElementById("meeting-purpose");
+        const meetingOrganizerInput = document.getElementById(
+          "meeting-organizer"
+        );
+        const themeToggleBtn = document.getElementById("theme-toggle");
 
-    emailInput.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' && emailInput.value) {
+
+   
+
+    // Function to toggle the theme
+    themeToggleBtn.addEventListener("click", function () {
+        document.body.classList.toggle("dark-theme");
+    });
+
+    // Function to change background image
+    changeBgBtn.addEventListener("click", function () {
+        document.getElementById("bg-input").click();
+    });
+
+    // Update background image when a new file is selected
+    document.getElementById("bg-input").addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.body.style.backgroundImage = `url(${e.target.result})`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+        const calendarBtn = document.getElementById("calendar-btn");
+        let meetings = [];
+        const emailInput = document.getElementById("email-input");
+        const emailTagsContainer = document.getElementById("email-tags");
+        let emailTags = [];
+
+        emailInput.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" && emailInput.value) {
             event.preventDefault();
 
             const email = emailInput.value.trim();
             if (validateEmail(email) && !emailTags.includes(email)) {
-                emailTags.push(email);
-                addEmailTag(email);
+              emailTags.push(email);
+              addEmailTag(email);
             }
-            emailInput.value = ''; // Clear the input field
-        }
-    });
+            emailInput.value = ""; // Clear the input field
+          }
+        });
 
-    function addEmailTag(email) {
-        const tag = document.createElement('span');
-        tag.className = 'badge bg-primary me-2 mb-2';
-        tag.innerText = email;
-        
-        const removeBtn = document.createElement('span');
-        removeBtn.className = 'ms-2 text-white';
-        removeBtn.innerHTML = '&times;';
-        removeBtn.style.cursor = 'pointer';
-        
-        removeBtn.addEventListener('click', function () {
-            emailTags = emailTags.filter(e => e !== email);
+        function addEmailTag(email) {
+          const tag = document.createElement("span");
+          tag.className = "badge bg-primary me-2 mb-2";
+          tag.innerText = email;
+
+          const removeBtn = document.createElement("span");
+          removeBtn.className = "ms-2 text-white";
+          removeBtn.innerHTML = "&times;";
+          removeBtn.style.cursor = "pointer";
+
+          removeBtn.addEventListener("click", function () {
+            emailTags = emailTags.filter((e) => e !== email);
             emailTagsContainer.removeChild(tag);
+          });
+
+          tag.appendChild(removeBtn);
+          emailTagsContainer.appendChild(tag);
+        }
+
+        function validateEmail(email) {
+          const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return re.test(email);
+        }
+        // Apply the current theme
+        document.documentElement.setAttribute("data-theme", currentTheme);
+
+        // Change icon based on the current theme
+        themeToggleButton.innerHTML =
+          currentTheme === "dark"
+            ? '<i class="bi bi-sun"></i>'
+            : '<i class="bi bi-moon"></i>';
+
+        // Toggle theme on button click
+        themeToggleButton.addEventListener("click", function () {
+          const newTheme =
+            document.documentElement.getAttribute("data-theme") === "dark"
+              ? "light"
+              : "dark";
+          document.documentElement.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+
+          themeToggleButton.innerHTML =
+            newTheme === "dark"
+              ? '<i class="bi bi-sun"></i>'
+              : '<i class="bi bi-moon"></i>';
         });
 
-        tag.appendChild(removeBtn);
-        emailTagsContainer.appendChild(tag);
-    }
-
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-            // Apply the current theme
-            document.documentElement.setAttribute('data-theme', currentTheme);
-    
-            // Change icon based on the current theme
-            themeToggleButton.innerHTML = currentTheme === 'dark' ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon"></i>';
-    
-            // Toggle theme on button click
-            themeToggleButton.addEventListener('click', function () {
-                const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-    
-                themeToggleButton.innerHTML = newTheme === 'dark' ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon"></i>';
-            });
-    
-            // Toggle the card visibility
-            function toggleCardVisibility() {
-                joinMeetingCard.classList.toggle('hidden');
-                joinMeetingCard.classList.toggle('show');
-            }
-            // Close card on clicking the close button
-            closeCardBtn.addEventListener('click', function() {
-    console.log('Close button clicked');
-    joinMeetingCard.classList.add('hidden');  // Simply hide the card
-    joinMeetingCard.classList.remove('show');
-});
-
-            // Add event listeners for toggling the join meeting card
-            if (joinMeetingBtn1) joinMeetingBtn1.addEventListener('click', toggleCardVisibility);
-            if (joinMeetingBtnMobile) joinMeetingBtnMobile.addEventListener('click', toggleCardVisibility);
-            if (newMeetingBtn1) newMeetingBtn1.addEventListener('click', toggleCardVisibility);
-    
-            // Background Change Logic
-            changeBgBtn.addEventListener('click', () => {
-                bgInput.click(); // Trigger file input click
-            });
-    
-            bgInput.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        document.body.style.backgroundImage = `url(${e.target.result})`; // Set image as background
-                    };
-                    reader.readAsDataURL(file); // Read the selected image
-                }
-            });
-    
-           
-            scheduleMeetingBtn.addEventListener('click', () => {
-                const dateTime = meetingDateTimeInput.value;
-                const purpose = meetingPurposeInput.value;
-                const organizer = meetingOrganizerInput.value;
-                if (dateTime && purpose && organizer) {
-                    meetings.push({ dateTime, purpose, organizer });
-                    displayMeetings();
-                    meetingDateTimeInput.value = '';
-                    meetingPurposeInput.value = '';
-                    meetingOrganizerInput.value = '';
-                }
-            });
-            viewMeetingsBtn.addEventListener('click', () => {
-                meetingsList.classList.toggle('hidden');
-                if (!meetingsList.classList.contains('hidden')) {
-                    displayMeetings();
-                }
-            });
-            calendarBtn.addEventListener('click', () => {
-                calendarPopup.style.display = 'block';
-            });
-
-            document.getElementById('calendar-popup').querySelector('.close-btn').addEventListener('click', () => {
-                calendarPopup.style.display = 'none';
-            });
-            
-
-            function displayMeetings() {
-                meetingsContainer.innerHTML = '';
-                meetings.forEach(meeting => {
-                    const meetingElement = document.createElement('div');
-                    const dateTimeParts = meeting.dateTime.split("T");
-                    const formattedDateTime = `${dateTimeParts[0]} ${dateTimeParts[1]}`;
-                    meetingElement.innerText = `${formattedDateTime} - ${meeting.purpose} ( Organizer: ${meeting.organizer} )`;
-
-                    meetingsContainer.appendChild(meetingElement);
-                });
-            }
-
-
-
-            // Show the full-page view when clicking "View Scheduled Meetings"
-document.getElementById('viewMeetingsBtn').addEventListener('click', () => {
-    document.getElementById('meetings-fullpage').classList.remove('hidden');
-});
-
-// Close the full-page view when clicking the close button
-document.getElementById('close-meetings-btn').addEventListener('click', () => {
-    document.getElementById('meetings-fullpage').classList.add('hidden');
-});
-
+        // Toggle the card visibility
+        function toggleCardVisibility() {
+          joinMeetingCard.classList.toggle("hidden");
+          joinMeetingCard.classList.toggle("show");
+        }
+        // Close card on clicking the close button
+        closeCardBtn.addEventListener("click", function () {
+          console.log("Close button clicked");
+          joinMeetingCard.classList.add("hidden"); // Simply hide the card
+          joinMeetingCard.classList.remove("show");
         });
 
-    
+        // Add event listeners for toggling the join meeting card
+        if (joinMeetingBtn1)
+          joinMeetingBtn1.addEventListener("click", toggleCardVisibility);
+        if (joinMeetingBtnMobile)
+          joinMeetingBtnMobile.addEventListener("click", toggleCardVisibility);
+        if (newMeetingBtn1)
+          newMeetingBtn1.addEventListener("click", toggleCardVisibility);
+
+        // Background Change Logic
+        changeBgBtn.addEventListener("click", () => {
+          bgInput.click(); // Trigger file input click
+        });
+
+        bgInput.addEventListener("change", (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              document.body.style.backgroundImage = `url(${e.target.result})`; // Set image as background
+            };
+            reader.readAsDataURL(file); // Read the selected image
+          }
+        });
+
+        scheduleMeetingBtn.addEventListener("click", () => {
+          const dateTime = meetingDateTimeInput.value;
+          const purpose = meetingPurposeInput.value;
+          const organizer = meetingOrganizerInput.value;
+          if (dateTime && purpose && organizer) {
+            meetings.push({ dateTime, purpose, organizer });
+            displayMeetings();
+            meetingDateTimeInput.value = "";
+            meetingPurposeInput.value = "";
+            meetingOrganizerInput.value = "";
+          }
+        });
+        viewMeetingsBtn.addEventListener("click", () => {
+          meetingsList.classList.toggle("hidden");
+          if (!meetingsList.classList.contains("hidden")) {
+            displayMeetings();
+          }
+        });
+        calendarBtn.addEventListener("click", () => {
+          calendarPopup.style.display = "block";
+        });
+
+        document
+          .getElementById("calendar-popup")
+          .querySelector(".close-btn")
+          .addEventListener("click", () => {
+            calendarPopup.style.display = "none";
+          });
+
+        function displayMeetings() {
+          meetingsContainer.innerHTML = "";
+          meetings.forEach((meeting) => {
+            const meetingElement = document.createElement("div");
+            const dateTimeParts = meeting.dateTime.split("T");
+            const formattedDateTime = `${dateTimeParts[0]} ${dateTimeParts[1]}`;
+            meetingElement.innerText = `${formattedDateTime} - ${meeting.purpose} ( Organizer: ${meeting.organizer} )`;
+
+            meetingsContainer.appendChild(meetingElement);
+          });
+        }
+
+        // Show the full-page view when clicking "View Scheduled Meetings"
+        document
+          .getElementById("viewMeetingsBtn")
+          .addEventListener("click", () => {
+            document
+              .getElementById("meetings-fullpage")
+              .classList.remove("hidden");
+          });
+
+        // Close the full-page view when clicking the close button
+        document
+          .getElementById("close-meetings-btn")
+          .addEventListener("click", () => {
+            document
+              .getElementById("meetings-fullpage")
+              .classList.add("hidden");
+          });
+      });
     </script>
-    
-    
-    
+
     <script src="./js/index.js"></script>
-</body>
+  </body>
 </html>

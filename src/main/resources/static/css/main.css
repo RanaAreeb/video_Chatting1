@@ -55,24 +55,20 @@ button {
 .btn-outline-secondary {
     border-color: var( --text-color);
     color: var( --text-color);
+    
 }
 
 .btn-outline-secondary:hover {
     background-color: var(--secondary-hover-color);
 }
-#newMeetingBtn {
-    background-color: #f8f9fa;
-    color: var(--text-color);
-    border-color: Black;
-    transition: smooth;
-     /* Lighter shade of the original color */
-}
+
 #newMeetingBtn1:hover {
     background-color:var(--primary-color);
 
 }
-#newMeetingBtn:hover {
-    background-color:var(--primary-color);
+#newMeetingBtn {
+    margin-right: 7px;
+   
 
 }
 #newMeetingBtn1{
@@ -80,6 +76,183 @@ button {
     color: var(--text-color);
     border-color: Black;
     transition: smooth;
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+.moveup {
+    margin-top: -3rem;
+}
+
+
+body {
+    transition: background-image 0.5s ease;
+    background-size: cover;
+    background-position: center;
+}
+.navbar-actions {
+margin-left: auto; /* Aligns the logout button to the right */
+}
+#joinMeetingBtn{
+margin-top: 10px;
+font-size: 1rem;
+padding: 0.5rem 0.5rem;
+background-color: #fcfcfc;
+border-color:  #db8f32;
+border-radius: 45px;
+transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+#joinMeetingBtn:hover{
+background-color: #db8f32;
+}
+
+#logoutBtn {
+margin-left: 1rem;
+font-size: 1rem;
+padding: 0.5rem 0.5rem;
+border-color: #db8f32;
+transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+}
+
+.close-btn {
+color: #000;
+cursor: pointer;
+
+}
+
+.close-btn:hover {
+color: #db8f32;
+}
+
+
+
+#calendar-popup {
+    position: fixed;
+    top: 50%;
+    left: 19%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    background-color: white;
+    border-radius: var(--border-radius-3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 1050;
+    display: none; /* Hidden by default */
+}
+
+#calendar-popup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+}
+
+#calendar-popup h5 {
+    margin-top: 0;
+}
+
+#meetings-list {
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.meeting-item {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+.full-page-popup {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color:  white;;
+z-index: 1000;
+padding: 2rem;
+display: flex;
+flex-direction: column;
+}
+.scrollable-meetings {
+max-height: 70vh; /* Adjust the height as needed */
+overflow-y: auto;
+background-color: white;
+padding: 1rem;
+border-radius: 0.5rem;
+flex-grow: 1;
+margin-top: 1rem;
+}
+
+.hidden {
+display: none;
+}
+#email-tags .badge {
+display: inline-block;
+padding: 0.5rem 1rem;
+font-size: 0.875rem;
+border-radius: 0.5rem;
+}
+/* Container for the card */
+#join-meeting-card {
+ 
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 35%;
+    width: 100%;
+    height: 100%;
+  
+    z-index: 1000; /* Ensure it is above other content */
+}
+
+
+
+/* Style for the card */
+.card.meeting-card {
+    background: #fff; /* White background for the card */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for the card */
+    max-width: 400px; /* Maximum width */
+    width: 90%; /* Responsive width */
+    margin: 0 20px; /* Margin for small screen adjustments */
+    padding: 20px; /* Padding inside the card */
+}
+
+/* Style for the card body */
+.card-body {
+    position: relative; /* Needed for absolute positioning of close button */
+}
+
+/* Close button style */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333; /* Dark color for the close button */
+}
+
+/* Card title style */
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Card text style */
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 20px;
 }
 /* Navbar Responsive Styling */
 @media (max-width: 992px) {
@@ -90,14 +263,37 @@ button {
     .navbar-nav .nav-item {
         margin-bottom: 10px;
     }
+    #calendar-popup {
+        top: 50%;
+        left: 10%; /* Move calendar to the left side */
+        transform: translate(0, -50%); /* Remove the horizontal centering */
+        max-width: 500px; /* Adjust width for larger screens */
+    }
 }
 
 @media (max-width: 768px) {
+    #join-meeting-card {
+ 
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      
+        z-index: 1000; /* Ensure it is above other content */
+    }
     #theme-toggle {
         font-size: 0.75rem; /* Smaller font size for theme toggle button */
-        padding: 0.5rem 1rem; /* Reduced padding for smaller button */
+        padding: 0.6rem 1rem;
+        position: relative; /* Reduced padding for smaller button */
+       
     }
-
+    button {
+        width: 160px;
+    }
+    
     .navbar-toggler {
         font-size: 0.75rem; /* Smaller font size for navbar toggle button */
         padding: 0.5rem 0.75rem; /* Reduced padding for smaller button */
@@ -114,21 +310,30 @@ button {
     .navbar-brand {
         position: static;
         transform: none;
+      
     }
-
+#logo{
+    margin-left: 20%;
+    padding-right: 20PX;
+}
     .avatar {
         margin-left: auto;
         border: none; /* Remove border on small screens */
     }
     
-    
+    #calendar-popup {
+        max-width: 300px;
+    }
+    #join-meeting-card{
+        top: 13rem;
+    }
 }
 
 /* Light Mode and Dark Mode Variables */
 :root {
     --bg-color: #f8f9fa;
     --text-color: #212529;
-    --primary-color: #db8f32;
+    --primary-color: #da9949;
     --secondary-color: #6c757d;
     --secondary-hover-color:  #db8f32;
     --border-color: #e5e5e5;
@@ -137,7 +342,7 @@ button {
 [data-theme='dark'] {
     --bg-color: #121212;
     --text-color: #4b4949;
-    --primary-color: #db8f32;
+    --primary-color: #da9949;
     --secondary-color: #424242;
     --secondary-hover-color:  #db8f32;
     --border-color: #000000;
