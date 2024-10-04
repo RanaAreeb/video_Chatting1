@@ -47,8 +47,8 @@
             const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
             const userID = Math.floor(Math.random() * 10000) + "";
             const userName = getUrlParams(window.location.href)['username'] || "userName" + userID;
-            const appID = 1674177280;
-            const serverSecret = "a9d65a7e15a43640d0a09b921addcf8a"; // Ensure to keep this secret secure
+            const appID = 1941202999;
+            const serverSecret = "d5d0ccae86454096f32eaf2da56b7a1c"; // Ensure to keep this secret secure
             const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
             const zp = ZegoUIKitPrebuilt.create(kitToken);
